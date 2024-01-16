@@ -1,20 +1,3 @@
-(deflocalkeys-win
-  ì 187
-)
-
-(deflocalkeys-wintercept
-  ì 187
-)
-
-(deflocalkeys-linux
-  ì 13
-)
-
-(deflocalkeys-macos
-  ì 13
-)
-
-
 (defsrc
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
@@ -23,25 +6,68 @@
   lctl lmet lalt           spc            ralt rmet rctl
 )
 
-(defalias
-  fn (layer-while-held function1)
-  spc (multi f24 (tap-hold 200 200 spc @fn))
-  kil  C-A-del                ;; Bind kil to a button that Ctrl-Alt-deletes
+(defvar
+  tap-timeout   100
+  hold-timeout  200
+  tt $tap-timeout
+  ht $hold-timeout
 )
 
-(deflayer qwerty
-  grv 1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    [    ]    del
-  lctl a    s    d    f    g    h    j    k    l    ;    '    ret
+(defalias
+  fn (layer-while-held function)
+  con (layer-while-held control)
+
+  spc (multi f24 (tap-hold $tt $ht spc @fn))
+  spcfn (layer-switch spcfn)
+
+  rmeta (multi f24 (tap-hold $tt $ht caps @fn)) 
+  metafn (layer-switch rmetafn)
+
+  cp (caps-word 2000)
+  prnt (arbitrary-code 210)
+)
+
+
+(deflayer spcfn
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  lctl a    s    d    @f   g    h    @j   k    l    ;    '    ret
   lsft z    x    c    v    b    n    m    ,    .    /    rsft
   lctl lmet lalt           @spc            ralt rmet rctl
 )
 
-(deflayer function1
-  lrld   f1   f2   f3   f4   f5  f6   f7   f8   f9   f10  f11  f12    _
-  caps   7    7    8    9    =   /    pgup    up    pgdn    _    _    _    \
-  _    4    4    5    6    -   home  left down  rght   end    _    _
-  _    0    1   2   3      \   0    1    2    3    _    _
-  _    _    _              _              _    _    _   
+(deflayer rmetafn
+  esc   1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
+  lctl  a    s    d    @f   g    h    @j   k    l    ;    '    ret
+  lsft  z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt @rmeta rctl
 )
 
+(deflayer function
+  grv f1   f2   f3   f4   f5  f6    f7   f8   f9   f10  f11  f12   del
+  caps _   _    esc  lrld  _    _    pgup up   pgdn   @prnt   scrlck    pause ins
+  _    _   _    _    _    _    home left down rght end   _    _
+  _    _   _    @con    _    spc    -    =    [    ]  _ _
+  _    _    _              _              _    _    _   
+) 
+
+(deflayer control
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ @spcfn  _ @metafn _  
+)
+
+(defalias
+  f (chord capsword f)
+  j (chord capsword j)
+)
+
+
+(defchords capsword 500
+  (f) f
+  (j) j
+  (f j) @cp
+)
