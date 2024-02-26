@@ -1,0 +1,72 @@
+(defsrc
+  q    w    e    r
+  a    s    d    f
+)
+
+
+(deflayer base
+  @s    @t    @r    @a
+  @o    @i    @y    @e
+)
+
+
+(defalias
+  ex S-1
+
+  s (chord prose s)
+  t (chord prose t)
+  r (chord prose r)
+  a (chord prose a)
+  o (chord prose o)
+  i (chord prose i)
+  y (chord prose y)
+  e (chord prose e)
+)
+
+
+(defchords prose 500
+  (s) s
+  (t) t
+  (r) r
+  (a) a
+
+  (o) o
+  (i) i
+  (y) y
+  (e) e
+
+  (s t) j
+  (t r) g
+  (r a) f
+  (o i) n
+  (i y) u
+  (y e) e
+
+  (s r) v
+  (o y) k
+  (i e) h
+
+  (s a) w
+  (o e) b
+
+  (s t r) x
+  (t r a) d
+  (o i y) m
+  (i y e) l
+
+  (s t a) q
+  (o i e) p
+
+  (s t r a) z
+
+  (t i) @ex
+  (o a) /
+  (y a) .
+  (i a) ,
+  (i y a) '
+
+  (o i y e) spc
+  (s o) ret
+  (s t r e) tab
+
+)

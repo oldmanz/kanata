@@ -1,0 +1,84 @@
+(defsrc
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    \    grv
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    bspc
+  lctl a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .     /    rsft
+        lalt lmet           spc            rmet ralt 
+)
+
+(defvar
+  tap-timeout   100
+  hold-timeout  200
+  tt $tap-timeout
+  ht $hold-timeout
+)
+
+(defalias
+  fn (layer-while-held function)
+  con (layer-while-held control)
+
+  spc (multi f24 (tap-hold $tt $ht spc @fn))
+  spcfn (layer-switch spcfn)
+
+  rmet (multi f24 (tap-hold $tt $ht caps @fn)) 
+  metfn (layer-switch rmetfn)
+
+  cp (caps-word 2000)
+  prnt (arbitrary-code 210)
+  mute (arbitrary-code 113)
+  vold (arbitrary-code 114)
+  volu (arbitrary-code 115)
+)
+
+
+(deflayer spcfn
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    \    grv
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    bspc
+  lctl a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .     /    rsft
+        lalt lmet           @spc            rmet ralt 
+)
+
+(deflayer rmetfn
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    \    grv
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    bspc
+  lctl a    s    d    f    g    h    j    k    l    ;    '    ret
+  lsft z    x    c    v    b    n    m    ,    .     /    rsft
+        lalt lmet           spc            @rmet ralt 
+)
+
+(deflayer function
+  grv  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  \    grv
+  tab  q    n7   n8   n9    t    y    pgup up    pgdn del  @prnt   _  bspc
+  lctl a    n4   n5   n6    g    home left down rght  end    _    ret
+  lsft n0   n1   n2   n3    b    num    m    ,    .     _    rsft
+        lalt lmet           spc            rmet ralt 
+)
+
+(deflayer function
+  esc f1   f2   f3   f4   f5  f6    f7   f8   f9   f10  f11  f12   del
+  _    _   _    esc  lrld  _    _    pgup up   pgdn   bspc   @prnt    pause ins
+  _    _   _    _    _    _    home left down rght end   _    _
+  _    _   _    @con    _    spc    -    del    [    ]  _ _
+  _    _    _              _              _    _    _   
+) 
+
+(deflayer control
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ _ _ _ _ _ _ _ _ _
+  _ _ _ @spcfn  _ @metfn _  
+)
+
+(defalias
+  f (chord capsword f)
+  j (chord capsword j)
+)
+
+
+(defchords capsword 500
+  (f) f
+  (j) j
+  (f j) @cp
+)
